@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Wpl\" />
+    <Folder Include="M3u\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Wpl\WplItemTests.cs" />

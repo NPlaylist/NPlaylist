@@ -51,4 +51,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="M3u\" />
+    <Folder Include="M3u\Exceptions\" />
+  </ItemGroup>
 </Project>
