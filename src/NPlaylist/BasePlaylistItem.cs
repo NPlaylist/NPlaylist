@@ -6,7 +6,7 @@ namespace NPlaylist
     {
         public IDictionary<string, string> Tags { get; }
 
-        public string Path
+        public virtual string Path
         {
             get => Tags.TryGetValue(TagNames.Path, out var value) ? value : null;
             set => Tags[TagNames.Path] = value;
