@@ -8,5 +8,6 @@ namespace NPlaylist
         public static string TrackId => "tid";
         public static string Version => "version";
         public static string Copyright => "copyright";
+        public static string Length => "length";
     }
 }
