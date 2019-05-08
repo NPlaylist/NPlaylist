@@ -1,3 +1,6 @@
+#pragma warning disable CA2214 // Warns about calls to virtual member functions occuring in the constructor 
+#pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,13 +26,13 @@ namespace NPlaylist
 
             foreach (var item in playlist.GetItems())
             {
-               Add(CreateItem(item));
+                Add(CreateItem(item));
             }
         }
 
         public IDictionary<string, string> Tags { get; }
 
-        public IEnumerable<T> Items => _items;
+        public IEnumerable<T> GenericItems => _items;
 
         public IEnumerable<IPlaylistItem> GetItems()
         {

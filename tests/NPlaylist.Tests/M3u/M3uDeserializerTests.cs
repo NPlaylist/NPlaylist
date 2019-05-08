@@ -33,7 +33,7 @@ namespace NPlaylist.Tests.M3u
             var emptyPlaylistStr = "#EXTM3U";
 
             var output = deserializer.Deserialize(emptyPlaylistStr);
-            Assert.Empty(output.Items);
+            Assert.Empty(output.GenericItems);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace NPlaylist.Tests.M3u
                 + "foo.bar" + newLine;
 
             var output = deserializer.Deserialize(str);
-            Assert.NotEmpty(output.Items);
+            Assert.NotEmpty(output.GenericItems);
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace NPlaylist.Tests.M3u
                 + "foo.bar\n";
 
             var output = deserializer.Deserialize(str);
-            Assert.Equal(42.42m, output.Items.First().Duration);
+            Assert.Equal(42.42m, output.GenericItems.First().Duration);
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace NPlaylist.Tests.M3u
                 + "foo.bar\n";
 
             var output = deserializer.Deserialize(str);
-            Assert.Equal("Foo", output.Items.First().Title);
+            Assert.Equal("Foo", output.GenericItems.First().Title);
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace NPlaylist.Tests.M3u
                 + "foo.bar\n";
 
             var output = deserializer.Deserialize(str);
-            Assert.Equal("foo.bar", output.Items.First().Path);
+            Assert.Equal("foo.bar", output.GenericItems.First().Path);
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace NPlaylist.Tests.M3u
                 + "foo.bar\n";
 
             var output = deserializer.Deserialize(str);
-            Assert.Equal(2, output.Items.Count());
+            Assert.Equal(2, output.GenericItems.Count());
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace NPlaylist.Tests.M3u
                 + "foo.bar\n";
 
             var output = deserializer.Deserialize(str);
-            Assert.NotEmpty(output.Items);
+            Assert.NotEmpty(output.GenericItems);
         }
 
         [Fact]
@@ -175,7 +175,7 @@ namespace NPlaylist.Tests.M3u
                 + "foo.bar\n";
 
             var output = deserializer.Deserialize(str);
-            Assert.Equal("Foo, Bar", output.Items.First().Title);
+            Assert.Equal("Foo, Bar", output.GenericItems.First().Title);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace NPlaylist.M3u
 
             var sb = new StringBuilder();
             AddHeader(sb);
-            AddMediaItems(sb, playlist.Items);
+            AddMediaItems(sb, playlist.GenericItems);
 
             return sb.ToString();
         }

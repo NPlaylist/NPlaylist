@@ -57,7 +57,7 @@ namespace NPlaylist.Tests.Asx
         {
             var playlist = new AsxPlaylist();
             playlist.Add(new AsxItem(string.Empty));
-            var asxItem = playlist.Items.First();
+            var asxItem = playlist.GenericItems.First();
             asxItem.Tags["Foo"] = "Bar";
             
             var asxWithVersion = @"<asx />";

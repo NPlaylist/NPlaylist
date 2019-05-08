@@ -18,7 +18,7 @@ namespace NPlaylist.Wpl.WplParts
         public RawPlaylist(WplPlaylist wplPlaylist)
         {
             Head = new Head(wplPlaylist);
-            Body = new Body(wplPlaylist.Items);
+            Body = new Body(wplPlaylist.GenericItems);
         }
     }
 }

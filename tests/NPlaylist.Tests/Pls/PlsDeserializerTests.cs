@@ -41,7 +41,7 @@ namespace NPlaylist.Tests.Pls
             string str = @"[playlist]";
             var playlist = deserializer.Deserialize(str);
 
-            Assert.Empty(playlist.Items);
+            Assert.Empty(playlist.GenericItems);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ File1=Foo
 Length1=-1";
             var playlist = deserializer.Deserialize(str);
 
-            Assert.Equal("-1", playlist.Items.First().Length);
+            Assert.Equal("-1", playlist.GenericItems.First().Length);
         }
 
         [Fact]
@@ -109,7 +109,7 @@ Length1=-1";
                          "File1=Foo" + Environment.NewLine + Environment.NewLine;
             var playlist = deserializer.Deserialize(str);
 
-            Assert.Equal("Foo", playlist.Items.First().Path);
+            Assert.Equal("Foo", playlist.GenericItems.First().Path);
         }
     }
 }

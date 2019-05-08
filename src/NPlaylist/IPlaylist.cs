@@ -11,7 +11,7 @@ namespace NPlaylist
     public interface IPlaylist<T> : IPlaylist
         where T : IPlaylistItem
     {
-        IEnumerable<T> Items { get; }
+        IEnumerable<T> GenericItems { get; }
 
         void Add(T item);
 

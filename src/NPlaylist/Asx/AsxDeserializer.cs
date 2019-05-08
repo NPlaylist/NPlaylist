@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 using NPlaylist.Asx.AsxParts;
 
@@ -12,7 +13,7 @@ namespace NPlaylist.Asx
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(input));
             }
 
             var asxRawData = ConvertToAsxParts(input);
@@ -23,7 +24,7 @@ namespace NPlaylist.Asx
         {
             var xmlSerializer = new XmlSerializer(typeof(AsxBase));
 
-            using (var reader = new StringReader(input))
+            using (var reader = XmlReader.Create(new StringReader(input)))
             {
                 try
                 {

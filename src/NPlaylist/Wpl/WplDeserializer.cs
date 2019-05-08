@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace NPlaylist.Wpl
@@ -19,8 +20,7 @@ namespace NPlaylist.Wpl
 
         private WplParts.RawPlaylist DeserializeToRawPlaylist(string input)
         {
-            var rawPlaylist = DeserializeToObject(input) as WplParts.RawPlaylist;
-            if (rawPlaylist == null)
+            if (!(DeserializeToObject(input) is WplParts.RawPlaylist rawPlaylist))
             {
                 throw new FormatException();
             }
@@ -32,7 +32,7 @@ namespace NPlaylist.Wpl
         {
             var xmlSerializer = new XmlSerializer(typeof(WplParts.RawPlaylist));
 
-            using (var reader = new StringReader(input))
+            using (var reader = XmlReader.Create(new StringReader(input)))
             {
                 try
                 {

@@ -7,6 +7,6 @@ namespace NPlaylist.Wpl.WplParts
     public class Sequence
     {
         [XmlElement(ElementName = "media")]
-        public List<MediaItem> Media { get; set; }
+        public List<MediaItem> Media { get; } = new List<MediaItem>();
     }
 }

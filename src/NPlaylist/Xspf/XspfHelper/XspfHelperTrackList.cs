@@ -7,6 +7,6 @@ namespace NPlaylist.Xspf.XspfHelper
     public class XspfHelperTrackList
     {
         [XmlElement(ElementName = "track", Namespace = "http://xspf.org/ns/0/")]
-        public List<XspfHelperTrack> Track { get; set; }
+        public List<XspfHelperTrack> Track { get; } = new List<XspfHelperTrack>();
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
@@ -9,7 +8,7 @@ namespace NPlaylist.Wpl.WplParts
     public class Head
     {
         [XmlElement(ElementName = "meta")]
-        public List<Meta> Meta { get; set; }
+        public List<Meta> Meta { get; } = new List<Meta>();
 
         [XmlElement(ElementName = "author")]
         public string Author { get; set; }

@@ -42,7 +42,7 @@ namespace NPlaylist.Tests.Asx
             ";
             var playlist = deserializer.Deserialize(asxWithMeta_FooToBar);
             
-            Assert.True(!playlist.Items.Any());
+            Assert.True(!playlist.GenericItems.Any());
         }
 
         [Fact]
@@ -85,8 +85,8 @@ namespace NPlaylist.Tests.Asx
             ";
             var playlist = deserializer.Deserialize(asxWithRef_Foo);
 
-            var asxItem = playlist.Items.First();
-            Assert.True(playlist.Items.Count() == 1 && asxItem.Path == "Foo");
+            var asxItem = playlist.GenericItems.First();
+            Assert.True(playlist.GenericItems.Count() == 1 && asxItem.Path == "Foo");
         }
     }
 }

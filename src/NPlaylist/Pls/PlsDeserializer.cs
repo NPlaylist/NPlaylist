@@ -88,7 +88,7 @@ namespace NPlaylist.Pls
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                throw new ArgumentNullException("Null or empty input");
+                throw new ArgumentNullException(nameof(input));
             }
 
             if (!StringUtils.InputHeaderValidation(input))

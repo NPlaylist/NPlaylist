@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 using NPlaylist.Xspf.XspfHelper;
 
@@ -14,8 +11,9 @@ namespace NPlaylist.Xspf
         {
             if (playlist == null)
             {
-                throw new ArgumentNullException("playlist is null");
+                throw new ArgumentNullException(nameof(playlist));
             }
+
             var helperPlaylist = FromXspfToHelper(playlist);
             return XspfHelperToString(helperPlaylist);
         }
@@ -33,12 +31,13 @@ namespace NPlaylist.Xspf
 
         private XspfHelperPlaylist FromXspfToHelper(XspfPlaylist playlist)
         {
-            var helperPlaylist = new XspfHelperPlaylist();
-            helperPlaylist.Version = playlist.Version;
-            helperPlaylist.TrackList = new XspfHelperTrackList();
-            helperPlaylist.TrackList.Track = new List<XspfHelperTrack>();
+            var helperPlaylist = new XspfHelperPlaylist
+            {
+                Version = playlist.Version,
+                TrackList = new XspfHelperTrackList(),
+            };
 
-            foreach (var xspfPlaylistItem in playlist.Items)
+            foreach (var xspfPlaylistItem in playlist.GenericItems)
             {
                 helperPlaylist.TrackList.Track.Add(new XspfHelperTrack
                 {

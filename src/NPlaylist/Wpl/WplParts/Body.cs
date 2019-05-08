@@ -18,10 +18,8 @@ namespace NPlaylist.Wpl.WplParts
         {
             var media = wplItems.Select(x => new MediaItem(x));
 
-            Sequence = new Sequence
-            {
-                Media = media.ToList()
-            };
+            Sequence = new Sequence();
+            Sequence.Media.AddRange(media.ToList());
         }
     }
 }

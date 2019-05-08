@@ -46,7 +46,7 @@ namespace NPlaylist.Tests
                 "</playlist>";
 
             var obj = xspfDeserializer.Deserialize(correctCountOfItems);
-            Assert.True(obj.Items.Count() == 2);
+            Assert.True(obj.GenericItems.Count() == 2);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace NPlaylist.Tests
                 "</playlist>";
             var obj = xspfDeserializer.Deserialize(correctItemParsing);
             
-            Assert.True(obj.Items.SingleOrDefault().Title == "Linux Path");
+            Assert.True(obj.GenericItems.SingleOrDefault().Title == "Linux Path");
         }
 
         [Fact]

@@ -33,24 +33,29 @@ namespace NPlaylist.Asx
             var objectPlaylist = new AsxBase
             {
                 Version = playlist.Version,
-                Title = playlist.Title,
-                Entry = GetAsxEntries(playlist)
+                Title = playlist.Title
             };
+            objectPlaylist.Entry.AddRange(GetAsxEntries(playlist));
             
             return objectPlaylist;
         }
 
         private List<Entry> GetAsxEntries(AsxPlaylist playlist)
         {
-            return playlist.Items
+            return playlist.GenericItems
                 .Where(item => !string.IsNullOrWhiteSpace(item.Path))
-                .Select(item => new Entry
+                .Select(item =>
                 {
-                    Author = item.Author,
-                    Copyright = item.Copyright,
-                    Title = item.Title,
-                    Ref = new Ref {Href = item.Path},
-                    Param = GetEntryTags(item)
+                    var entry = new Entry
+                    {
+                        Author = item.Author,
+                        Copyright = item.Copyright,
+                        Title = item.Title,
+                        Ref = new Ref { Href = item.Path }
+                    };
+                    entry.Param.AddRange(GetEntryTags(item));
+
+                    return entry;
                 })
                 .ToList();
         }

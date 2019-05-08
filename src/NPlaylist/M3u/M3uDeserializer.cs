@@ -80,7 +80,7 @@ namespace NPlaylist.M3u
 
         private void PostValidateInput(string input, M3uPlaylist playlist)
         {
-            if (!HasTheExpectedNbOfLines(input, playlist.Items.Count()))
+            if (!HasTheExpectedNbOfLines(input, playlist.GenericItems.Count()))
             {
                 throw new FormatException("Unexpected number of lines.");
             }

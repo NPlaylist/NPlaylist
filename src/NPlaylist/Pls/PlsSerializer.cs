@@ -10,7 +10,7 @@ namespace NPlaylist.Pls
         {
             if (playlist == null)
             {
-                throw new ArgumentNullException("playlist is null");
+                throw new ArgumentNullException(nameof(playlist));
             }
             var sb = new StringBuilder();
            
@@ -24,7 +24,7 @@ namespace NPlaylist.Pls
         private void AddBody(PlsPlaylist playlist, StringBuilder sb)
         {
             int itemNumber = 0;
-            foreach (var item in playlist.Items)
+            foreach (var item in playlist.GenericItems)
             {
                 itemNumber++;
 
@@ -46,7 +46,7 @@ namespace NPlaylist.Pls
 
         private void AddFooter(PlsPlaylist playlist, StringBuilder sb)
         {
-            sb.AppendLine($"NumberOfEntries={playlist.Items.Count()}");
+            sb.AppendLine($"NumberOfEntries={playlist.GenericItems.Count()}");
             var result = int.TryParse(playlist.Version, out int res) ? res : 2;
             sb.AppendLine($"Version={result}");
         }

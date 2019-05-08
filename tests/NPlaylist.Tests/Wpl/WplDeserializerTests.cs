@@ -109,7 +109,7 @@ namespace NPlaylist.Tests.Wpl
 
             var playlist = deserializer.Deserialize(wplWithMedia_SrcToFoo_TidToBar);
 
-            var wplItem = playlist.Items.First();
+            var wplItem = playlist.GenericItems.First();
             Assert.True(wplItem.Path == "Foo" && wplItem.TrackId == "Bar");
         }
     }

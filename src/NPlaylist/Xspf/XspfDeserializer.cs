@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 using NPlaylist.Xspf.XspfHelper;
 
@@ -11,27 +12,27 @@ namespace NPlaylist.Xspf
         {
             if (input == null)
             {
-                throw new ArgumentNullException("Input is null");
+                throw new ArgumentNullException(nameof(input));
             }
 
             var helperPlaylist = StringToXspfHelper(input);
             return ConvertToXspfPlaylist(helperPlaylist);
         }
 
-        private XspfHelper.XspfHelperPlaylist StringToXspfHelper(string input)
+        private XspfHelperPlaylist StringToXspfHelper(string input)
         {
             var xmlSerializer = new XmlSerializer(typeof(XspfHelperPlaylist));
 
             XspfHelperPlaylist xspfHelperObj;
 
-            using (var reader = new StringReader(input))
+            using (var reader = XmlReader.Create(new StringReader(input)))
             {
                 try
                 {
-                    xspfHelperObj= xmlSerializer.Deserialize(reader) as XspfHelperPlaylist;
+                    xspfHelperObj = xmlSerializer.Deserialize(reader) as XspfHelperPlaylist;
                     return xspfHelperObj;
                 }
-                catch (InvalidOperationException ex)
+                catch (InvalidOperationException)
                 {
                     throw new FormatException();
                 }
