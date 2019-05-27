@@ -1,7 +1,4 @@
-#pragma warning disable CA2214 // Warns about calls to virtual member functions occuring in the constructor 
-#pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NPlaylist
@@ -17,24 +14,22 @@ namespace NPlaylist
             _items = new List<T>();
         }
 
-        protected BasePlaylist(IPlaylist playlist) : this()
+        protected BasePlaylist(IPlaylist playlist)
+            : this()
         {
             foreach (var playlistTag in playlist.Tags)
             {
                 Tags[playlistTag.Key] = playlistTag.Value;
             }
 
-            foreach (var item in playlist.GetItems())
-            {
-                Add(CreateItem(item));
-            }
+            AddRange(playlist.GetGenericItems().Select(CreateItem));
         }
 
         public IDictionary<string, string> Tags { get; }
 
-        public IEnumerable<T> GenericItems => _items;
+        public IEnumerable<T> Items => _items;
 
-        public IEnumerable<IPlaylistItem> GetItems()
+        public IEnumerable<IPlaylistItem> GetGenericItems()
         {
             return _items.Cast<IPlaylistItem>();
         }
@@ -42,6 +37,11 @@ namespace NPlaylist
         public void Add(T item)
         {
             _items.Add(item);
+        }
+
+        public void AddRange(IEnumerable<T> items)
+        {
+            _items.AddRange(items);
         }
 
         public void Remove(T item)

@@ -1,9 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using NPlaylist.Asx.AsxParts;
@@ -21,7 +19,8 @@ namespace NPlaylist.Asx
 
         public string Serialize(AsxPlaylist playlist)
         {
-            if (playlist == null) { 
+            if (playlist == null)
+            {
                 return string.Empty;
             }
             var asxObject = ConvertToAsxParts(playlist);
@@ -36,13 +35,13 @@ namespace NPlaylist.Asx
                 Title = playlist.Title
             };
             objectPlaylist.Entry.AddRange(GetAsxEntries(playlist));
-            
+
             return objectPlaylist;
         }
 
         private List<Entry> GetAsxEntries(AsxPlaylist playlist)
         {
-            return playlist.GenericItems
+            return playlist.Items
                 .Where(item => !string.IsNullOrWhiteSpace(item.Path))
                 .Select(item =>
                 {
@@ -65,13 +64,13 @@ namespace NPlaylist.Asx
             return item.Tags
                 .Where(t => t.Key != TagNames.Path && t.Key != TagNames.Author &&
                             t.Key != TagNames.Copyright && t.Key != TagNames.Title)
-                .Select(itemTags => new ParamItem {Name = itemTags.Key, Value = itemTags.Value}).ToList();
+                .Select(itemTags => new ParamItem { Name = itemTags.Key, Value = itemTags.Value }).ToList();
         }
 
         private string ConvertToRawData(AsxBase asxObject)
         {
             var emptyNamespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
-            
+
             var settings = new XmlWriterSettings
             {
                 Indent = true,

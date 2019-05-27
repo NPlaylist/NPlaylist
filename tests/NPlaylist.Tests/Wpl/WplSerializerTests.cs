@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using NPlaylist.Wpl;
 using Xunit;
@@ -126,8 +126,9 @@ namespace NPlaylist.Tests.Wpl
         /*
          * Replaces spaces, tabs and stuff, so that I can still write
          * pretty xml in tests.
-         * Replaces any \s before '<' and after '>' whith \s*       
+         * Replaces any \s before '<' and after '>' whith \s*
         */
+
         private static string PrepareXmlForPatternMatching(string str)
         {
             str = Regex.Replace(str, @"(\s*)(<)", @"\s*$2");

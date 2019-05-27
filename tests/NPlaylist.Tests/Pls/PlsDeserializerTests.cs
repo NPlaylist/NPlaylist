@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NPlaylist.Pls;
 using Xunit;
 
@@ -10,7 +7,7 @@ namespace NPlaylist.Tests.Pls
 {
     public class PlsDeserializerTests
     {
-        readonly PlsDeserializer deserializer;
+        private readonly PlsDeserializer deserializer;
 
         public PlsDeserializerTests()
         {
@@ -41,7 +38,7 @@ namespace NPlaylist.Tests.Pls
             string str = @"[playlist]";
             var playlist = deserializer.Deserialize(str);
 
-            Assert.Empty(playlist.GenericItems);
+            Assert.Empty(playlist.Items);
         }
 
         [Fact]
@@ -79,7 +76,7 @@ Version=Foo";
 File1=Foo";
             var playlist = deserializer.Deserialize(str);
 
-            Assert.True(playlist.GetItems().Count() == 1);
+            Assert.True(playlist.GetGenericItems().Count() == 1);
         }
 
         [Fact]
@@ -99,17 +96,17 @@ File1=Foo
 Length1=-1";
             var playlist = deserializer.Deserialize(str);
 
-            Assert.Equal("-1", playlist.GenericItems.First().Length);
+            Assert.Equal("-1", playlist.Items.First().Length);
         }
 
         [Fact]
         public void Deserialize_EntryWithUselessNewlines_ExtralinesAreIgnored()
         {
-            string str = "[playlist]"+ Environment.NewLine + Environment.NewLine + Environment.NewLine +
+            string str = "[playlist]" + Environment.NewLine + Environment.NewLine + Environment.NewLine +
                          "File1=Foo" + Environment.NewLine + Environment.NewLine;
             var playlist = deserializer.Deserialize(str);
 
-            Assert.Equal("Foo", playlist.GenericItems.First().Path);
+            Assert.Equal("Foo", playlist.Items.First().Path);
         }
     }
 }

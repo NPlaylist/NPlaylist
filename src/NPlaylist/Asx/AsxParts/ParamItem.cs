@@ -1,4 +1,4 @@
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace NPlaylist.Asx.AsxParts
 {
@@ -7,6 +7,7 @@ namespace NPlaylist.Asx.AsxParts
     {
         [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
+
         [XmlAttribute(AttributeName = "value")]
         public string Value { get; set; }
     }

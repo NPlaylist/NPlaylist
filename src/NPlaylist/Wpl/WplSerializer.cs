@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
@@ -32,6 +32,7 @@ namespace NPlaylist.Wpl
         /*
          * <?xml ...> to <?wpl ...>
         */
+
         private string ReplaceXmlInitialTagWithWplTag(string playlistXml)
         {
             return Regex.Replace(playlistXml, @"^(<\?)(xml)", "$1wpl");

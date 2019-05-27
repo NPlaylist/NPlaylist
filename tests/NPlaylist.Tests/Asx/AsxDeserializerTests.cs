@@ -1,15 +1,14 @@
-using System;
+﻿using System;
 using System.Linq;
 using NPlaylist.Asx;
-using NSubstitute;
 using Xunit;
 
 namespace NPlaylist.Tests.Asx
 {
     public class AsxDeserializerTests
     {
-        readonly AsxDeserializer deserializer;
-        
+        private readonly AsxDeserializer deserializer;
+
         public AsxDeserializerTests()
         {
             deserializer = new AsxDeserializer();
@@ -41,8 +40,8 @@ namespace NPlaylist.Tests.Asx
                 <asx />
             ";
             var playlist = deserializer.Deserialize(asxWithMeta_FooToBar);
-            
-            Assert.True(!playlist.GenericItems.Any());
+
+            Assert.True(!playlist.Items.Any());
         }
 
         [Fact]
@@ -55,7 +54,7 @@ namespace NPlaylist.Tests.Asx
                 </asx>
             ";
             var playlist = deserializer.Deserialize(asxWithTitle_Foo);
-            
+
             Assert.True(playlist.Title == "Foo");
         }
 
@@ -85,8 +84,8 @@ namespace NPlaylist.Tests.Asx
             ";
             var playlist = deserializer.Deserialize(asxWithRef_Foo);
 
-            var asxItem = playlist.GenericItems.First();
-            Assert.True(playlist.GenericItems.Count() == 1 && asxItem.Path == "Foo");
+            var asxItem = playlist.Items.First();
+            Assert.True(playlist.Items.Count() == 1 && asxItem.Path == "Foo");
         }
     }
 }

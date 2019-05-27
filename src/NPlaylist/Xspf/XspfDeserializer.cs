@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -43,7 +43,7 @@ namespace NPlaylist.Xspf
         {
             var xspfPlaylist = new XspfPlaylist();
             xspfPlaylist.Version = playlist.Version;
-            
+
             foreach (var track in playlist.TrackList.Track)
             {
                 xspfPlaylist.Add(new XspfPlaylistItem(track.Location)

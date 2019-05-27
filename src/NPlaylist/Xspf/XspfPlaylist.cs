@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NPlaylist.Xspf
+﻿namespace NPlaylist.Xspf
 {
     public class XspfPlaylist : BasePlaylist<XspfPlaylistItem>
     {

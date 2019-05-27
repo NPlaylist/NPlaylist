@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -8,7 +8,7 @@ namespace NPlaylist.M3u
     public class M3uSerializer : IPlaylistSerializer<M3uPlaylist>
     {
         private readonly string _newLine;
-        
+
         public M3uSerializer(string newline = null)
         {
             this._newLine = (newline == null) ? Environment.NewLine : newline;
@@ -23,7 +23,7 @@ namespace NPlaylist.M3u
 
             var sb = new StringBuilder();
             AddHeader(sb);
-            AddMediaItems(sb, playlist.GenericItems);
+            AddMediaItems(sb, playlist.Items);
 
             return sb.ToString();
         }

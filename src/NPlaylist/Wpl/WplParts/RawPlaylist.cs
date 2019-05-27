@@ -1,4 +1,4 @@
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace NPlaylist.Wpl.WplParts
 {
@@ -18,7 +18,7 @@ namespace NPlaylist.Wpl.WplParts
         public RawPlaylist(WplPlaylist wplPlaylist)
         {
             Head = new Head(wplPlaylist);
-            Body = new Body(wplPlaylist.GenericItems);
+            Body = new Body(wplPlaylist.Items);
         }
     }
 }

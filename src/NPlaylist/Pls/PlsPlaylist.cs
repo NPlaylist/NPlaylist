@@ -1,4 +1,4 @@
-namespace NPlaylist.Pls
+﻿namespace NPlaylist.Pls
 {
     public class PlsPlaylist : BasePlaylist<PlsItem>
     {

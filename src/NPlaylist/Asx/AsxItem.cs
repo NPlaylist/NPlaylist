@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NPlaylist.Asx
+﻿namespace NPlaylist.Asx
 {
     public class AsxItem : BasePlaylistItem
     {
@@ -16,6 +9,7 @@ namespace NPlaylist.Asx
         public AsxItem(IPlaylistItem item) : base(item)
         {
         }
+
         public string Title
         {
             get => Tags.TryGetValue(TagNames.Title, out var value) ? value : null;

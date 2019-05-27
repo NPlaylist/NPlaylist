@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using NPlaylist.Wpl;
 using Xunit;
@@ -109,7 +109,7 @@ namespace NPlaylist.Tests.Wpl
 
             var playlist = deserializer.Deserialize(wplWithMedia_SrcToFoo_TidToBar);
 
-            var wplItem = playlist.GenericItems.First();
+            var wplItem = playlist.Items.First();
             Assert.True(wplItem.Path == "Foo" && wplItem.TrackId == "Bar");
         }
     }

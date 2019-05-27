@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NPlaylist.Xspf;
 using NSubstitute;
@@ -13,10 +13,10 @@ namespace NPlaylist.Tests.XspfTests
         {
             var playlist = Substitute.For<IPlaylist>();
             var item = Substitute.For<IPlaylistItem>();
-            playlist.GetItems().Returns(new[] { item });
+            playlist.GetGenericItems().Returns(new[] { item });
 
             var sut = new XspfPlaylist(playlist);
-            var actualNbOfItems = sut.GetItems().Count();
+            var actualNbOfItems = sut.GetGenericItems().Count();
 
             Assert.Equal(1, actualNbOfItems);
         }
@@ -66,10 +66,10 @@ namespace NPlaylist.Tests.XspfTests
             item.Path.Returns("test path");
 
             var playlist = Substitute.For<IPlaylist>();
-            playlist.GetItems().Returns(new[] { item });
+            playlist.GetGenericItems().Returns(new[] { item });
 
             var sut = new XspfPlaylist(playlist);
-            var actualPath = sut.GetItems().First().Path;
+            var actualPath = sut.GetGenericItems().First().Path;
 
             Assert.Equal("test path", actualPath);
         }
@@ -82,10 +82,10 @@ namespace NPlaylist.Tests.XspfTests
             item.Tags.Returns(tags);
 
             var playlist = Substitute.For<IPlaylist>();
-            playlist.GetItems().Returns(new[] { item });
+            playlist.GetGenericItems().Returns(new[] { item });
 
             var sut = new XspfPlaylist(playlist);
-            var actualTag = sut.GetItems().First().Tags["foo"];
+            var actualTag = sut.GetGenericItems().First().Tags["foo"];
 
             Assert.Equal("testID", actualTag);
         }

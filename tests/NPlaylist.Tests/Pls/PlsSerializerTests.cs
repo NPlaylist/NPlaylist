@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using NPlaylist.Pls;
 using Xunit;
@@ -19,7 +19,7 @@ namespace NPlaylist.Tests.PlsTests
             var serializer = new PlsSerializer();
             var result = serializer.Serialize(new PlsPlaylist());
 
-            Assert.Equal(sb.ToString(),result);
+            Assert.Equal(sb.ToString(), result);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace NPlaylist.Tests.PlsTests
                 Version = "2"
             });
 
-            Assert.Equal(sb.ToString(),result);
+            Assert.Equal(sb.ToString(), result);
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace NPlaylist.Tests.PlsTests
 
             var result = serializer.Serialize(pls);
 
-            Assert.Equal(sb.ToString(),result);
+            Assert.Equal(sb.ToString(), result);
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace NPlaylist.Tests.PlsTests
 
             var result = serializer.Serialize(pls);
 
-            Assert.Equal(sb.ToString(),result);
+            Assert.Equal(sb.ToString(), result);
         }
 
         [Fact]

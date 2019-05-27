@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Xunit;
-using NSubstitute;
 using NPlaylist.Asx;
+using NSubstitute;
+using Xunit;
 
 namespace NPlaylist.Tests.Asx
 {
@@ -14,10 +13,10 @@ namespace NPlaylist.Tests.Asx
         {
             var playlist = Substitute.For<IPlaylist>();
             var item = Substitute.For<IPlaylistItem>();
-            playlist.GetItems().Returns(new[] { item });
+            playlist.GetGenericItems().Returns(new[] { item });
 
             var asx = new AsxPlaylist(playlist);
-            Assert.True(playlist.GetItems().Count() == asx.GetItems().Count());
+            Assert.True(playlist.GetGenericItems().Count() == asx.GetGenericItems().Count());
         }
 
         [Fact]
@@ -54,10 +53,10 @@ namespace NPlaylist.Tests.Asx
             var playlist = Substitute.For<IPlaylist>();
             var item = Substitute.For<IPlaylistItem>();
             item.Path.Returns("Foo");
-            playlist.GetItems().Returns(new[] { item });
+            playlist.GetGenericItems().Returns(new[] { item });
 
             var asx = new AsxPlaylist(playlist);
-            Assert.True(asx.GetItems().First().Path == "Foo");
+            Assert.True(asx.GetGenericItems().First().Path == "Foo");
         }
 
         [Fact]
@@ -70,10 +69,10 @@ namespace NPlaylist.Tests.Asx
                 { "Foo", "Bar" }
             };
             item.Tags.Returns(dictionary);
-            playlist.GetItems().Returns(new [] {item});
+            playlist.GetGenericItems().Returns(new[] { item });
 
             var asx = new AsxPlaylist(playlist);
-            Assert.True(asx.GetItems().First().Tags["Foo"] == "Bar");
+            Assert.True(asx.GetGenericItems().First().Tags["Foo"] == "Bar");
         }
     }
 }

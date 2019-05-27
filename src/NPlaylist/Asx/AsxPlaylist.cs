@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NPlaylist.Asx
+﻿namespace NPlaylist.Asx
 {
     public class AsxPlaylist : BasePlaylist<AsxItem>
     {
@@ -28,7 +22,7 @@ namespace NPlaylist.Asx
             set => Tags[TagNames.Version] = value;
         }
 
-        protected override AsxItem CreateItem(IPlaylistItem item) 
+        protected override AsxItem CreateItem(IPlaylistItem item)
         {
             return new AsxItem(item);
         }

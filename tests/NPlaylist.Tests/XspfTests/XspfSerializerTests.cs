@@ -1,5 +1,4 @@
-using System;
-using System.Drawing.Design;
+﻿using System;
 using NPlaylist.Xspf;
 using Xunit;
 

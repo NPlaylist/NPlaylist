@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using System.Xml.Serialization;
 using NPlaylist.Xspf.XspfHelper;
@@ -37,7 +37,7 @@ namespace NPlaylist.Xspf
                 TrackList = new XspfHelperTrackList(),
             };
 
-            foreach (var xspfPlaylistItem in playlist.GenericItems)
+            foreach (var xspfPlaylistItem in playlist.Items)
             {
                 helperPlaylist.TrackList.Track.Add(new XspfHelperTrack
                 {

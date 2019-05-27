@@ -1,4 +1,4 @@
-namespace NPlaylist
+﻿namespace NPlaylist
 {
     public static class TagNames
     {

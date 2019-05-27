@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 
@@ -13,7 +13,7 @@ namespace NPlaylist.Pls
                 throw new ArgumentNullException(nameof(playlist));
             }
             var sb = new StringBuilder();
-           
+
             AddHeader(sb);
             AddBody(playlist, sb);
             AddFooter(playlist, sb);
@@ -24,7 +24,7 @@ namespace NPlaylist.Pls
         private void AddBody(PlsPlaylist playlist, StringBuilder sb)
         {
             int itemNumber = 0;
-            foreach (var item in playlist.GenericItems)
+            foreach (var item in playlist.Items)
             {
                 itemNumber++;
 
@@ -46,7 +46,7 @@ namespace NPlaylist.Pls
 
         private void AddFooter(PlsPlaylist playlist, StringBuilder sb)
         {
-            sb.AppendLine($"NumberOfEntries={playlist.GenericItems.Count()}");
+            sb.AppendLine($"NumberOfEntries={playlist.Items.Count()}");
             var result = int.TryParse(playlist.Version, out int res) ? res : 2;
             sb.AppendLine($"Version={result}");
         }

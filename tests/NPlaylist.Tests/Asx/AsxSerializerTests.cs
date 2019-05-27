@@ -1,5 +1,4 @@
-using System;
-using System.Linq;
+﻿using System.Linq;
 using NPlaylist.Asx;
 using Xunit;
 
@@ -24,7 +23,7 @@ namespace NPlaylist.Tests.Asx
         [Fact]
         public void Serialize_VersionIsParsedAsExpected()
         {
-            var playlist = new AsxPlaylist {Version = "1.0"};
+            var playlist = new AsxPlaylist { Version = "1.0" };
             var asxWithVersion = @"<asx version=""1.0"" />";
 
             var output = serializer.Serialize(playlist);
@@ -57,9 +56,9 @@ namespace NPlaylist.Tests.Asx
         {
             var playlist = new AsxPlaylist();
             playlist.Add(new AsxItem(string.Empty));
-            var asxItem = playlist.GenericItems.First();
+            var asxItem = playlist.Items.First();
             asxItem.Tags["Foo"] = "Bar";
-            
+
             var asxWithVersion = @"<asx />";
 
             var output = serializer.Serialize(playlist);

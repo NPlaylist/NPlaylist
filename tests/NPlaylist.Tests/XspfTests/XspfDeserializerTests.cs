@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using NPlaylist.Xspf;
 using Xunit;
@@ -46,7 +46,7 @@ namespace NPlaylist.Tests
                 "</playlist>";
 
             var obj = xspfDeserializer.Deserialize(correctCountOfItems);
-            Assert.True(obj.GenericItems.Count() == 2);
+            Assert.True(obj.Items.Count() == 2);
         }
 
         [Fact]
@@ -64,16 +64,16 @@ namespace NPlaylist.Tests
                 "</trackList>" +
                 "</playlist>";
             var obj = xspfDeserializer.Deserialize(correctItemParsing);
-            
-            Assert.True(obj.GenericItems.SingleOrDefault().Title == "Linux Path");
+
+            Assert.True(obj.Items.SingleOrDefault().Title == "Linux Path");
         }
 
         [Fact]
         public void Deserialize_NullInputAsParameter_ArgumentNullExceptionThrown()
         {
             var xspfDeserializer = new XspfDeserializer();
-           
-            Assert.Throws<ArgumentNullException>(()=> xspfDeserializer.Deserialize(null));
+
+            Assert.Throws<ArgumentNullException>(() => xspfDeserializer.Deserialize(null));
         }
     }
 }

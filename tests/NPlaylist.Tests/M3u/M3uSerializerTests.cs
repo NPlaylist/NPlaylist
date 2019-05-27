@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NPlaylist.M3u;
 using Xunit;
 

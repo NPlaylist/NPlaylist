@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 
 namespace NPlaylist
 {
@@ -8,5 +6,5 @@ namespace NPlaylist
     {
         IDictionary<string, string> Tags { get; }
         string Path { get; }
-    }   
+    }
 }

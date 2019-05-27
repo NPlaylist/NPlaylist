@@ -1,6 +1,4 @@
-using System;
-using System.Linq;
-using NSubstitute;
+﻿using NSubstitute;
 using Xunit;
 
 namespace NPlaylist.Tests
@@ -12,15 +10,16 @@ namespace NPlaylist.Tests
 
         public BasePlaylistTests()
         {
-            playlist = Substitute.For < BasePlaylist<IPlaylistItem>>();
+            playlist = Substitute.For<BasePlaylist<IPlaylistItem>>();
             dummyItem = Substitute.For<IPlaylistItem>();
         }
+
         [Fact]
         public void Add_Adds_ExpectedItem()
         {
             playlist.Add(dummyItem);
 
-            Assert.Contains(dummyItem, playlist.GetItems());
+            Assert.Contains(dummyItem, playlist.GetGenericItems());
         }
 
         [Fact]
@@ -30,7 +29,7 @@ namespace NPlaylist.Tests
 
             playlist.Remove(dummyItem);
 
-            Assert.DoesNotContain(dummyItem, playlist.GetItems());
+            Assert.DoesNotContain(dummyItem, playlist.GetGenericItems());
         }
     }
 }

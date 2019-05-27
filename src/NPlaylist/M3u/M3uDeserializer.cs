@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -18,8 +18,9 @@ namespace NPlaylist.M3u
          * Groups:
          *  1. Decimal duration
          *  2. Optional Title
-         *  3. Path       
+         *  3. Path
         */
+
         private static readonly Regex mediaGroupingRgx = new Regex(
               $"^#EXTINF:({decimalPattern}){titlePattern}?{newlinePattern}"
             + $"({pathPattern})");
@@ -52,6 +53,7 @@ namespace NPlaylist.M3u
         /*
          * To ease the implementation, the input must have a trailing newline.
         */
+
         private string PreprocessInput(string input)
         {
             return StringUtils.RemoveExtraNewlines(input + '\n');
@@ -61,6 +63,7 @@ namespace NPlaylist.M3u
          * Break the input into groups of 2 lines.
          * Extract the media items from these groups.
         */
+
         private IEnumerable<M3uItem> ExtractItems(string input)
         {
             var twoLinesPattern = $".*{newlinePattern}.*{newlinePattern}";
@@ -80,7 +83,7 @@ namespace NPlaylist.M3u
 
         private void PostValidateInput(string input, M3uPlaylist playlist)
         {
-            if (!HasTheExpectedNbOfLines(input, playlist.GenericItems.Count()))
+            if (!HasTheExpectedNbOfLines(input, playlist.Items.Count()))
             {
                 throw new FormatException("Unexpected number of lines.");
             }

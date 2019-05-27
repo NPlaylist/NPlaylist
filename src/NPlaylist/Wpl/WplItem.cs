@@ -1,4 +1,4 @@
-namespace NPlaylist.Wpl
+﻿namespace NPlaylist.Wpl
 {
     public class WplItem : BasePlaylistItem
     {
