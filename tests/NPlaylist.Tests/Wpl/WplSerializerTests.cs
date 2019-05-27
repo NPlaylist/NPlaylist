@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 using NPlaylist.Wpl;
 using Xunit;
 
@@ -7,17 +8,14 @@ namespace NPlaylist.Tests.Wpl
 {
     public class WplSerializerTests
     {
-        private readonly WplSerializer serializer;
-
-        public WplSerializerTests()
-        {
-            serializer = new WplSerializer();
-        }
-
         [Fact]
         public void Serialize_NullInput_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => serializer.Serialize(null));
+            var serializer = new WplSerializer();
+
+            Action act = () => serializer.Serialize(null);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -32,9 +30,11 @@ namespace NPlaylist.Tests.Wpl
                     </body>
                 </smil>
             ");
+            var serializer = new WplSerializer();
 
             var output = serializer.Serialize(new WplPlaylist());
-            Assert.Matches(pattern, output);
+
+            output.Should().MatchRegex(pattern);
         }
 
         [Fact]
@@ -45,11 +45,14 @@ namespace NPlaylist.Tests.Wpl
                     <meta name=""Foo"" content=""Bar"" />
                 </head>
             ");
+            var serializer = new WplSerializer();
 
             var playlist = new WplPlaylist();
             playlist.Tags["Foo"] = "Bar";
 
-            Assert.Matches(pattern, serializer.Serialize(playlist));
+            var actual = serializer.Serialize(playlist);
+
+            actual.Should().MatchRegex(pattern);
         }
 
         [Fact]
@@ -65,8 +68,11 @@ namespace NPlaylist.Tests.Wpl
             {
                 Title = "Foo"
             };
+            var serializer = new WplSerializer();
 
-            Assert.Matches(pattern, serializer.Serialize(playlist));
+            var actual = serializer.Serialize(playlist);
+
+            actual.Should().MatchRegex(pattern);
         }
 
         [Fact]
@@ -78,12 +84,12 @@ namespace NPlaylist.Tests.Wpl
                 </head>
             ");
 
-            var playlist = new WplPlaylist
-            {
-                Author = "Foo"
-            };
+            var playlist = new WplPlaylist { Author = "Foo" };
+            var serializer = new WplSerializer();
 
-            Assert.Matches(pattern, serializer.Serialize(playlist));
+            var actual = serializer.Serialize(playlist);
+
+            actual.Should().MatchRegex(pattern);
         }
 
         [Fact]
@@ -99,8 +105,10 @@ namespace NPlaylist.Tests.Wpl
 
             var playlist = new WplPlaylist();
             playlist.Add(new WplItem("Foo"));
+            var serializer = new WplSerializer();
+            var actual = serializer.Serialize(playlist);
 
-            Assert.Matches(pattern, serializer.Serialize(playlist));
+            actual.Should().MatchRegex(pattern);
         }
 
         [Fact]
@@ -115,20 +123,20 @@ namespace NPlaylist.Tests.Wpl
             ");
 
             var playlist = new WplPlaylist();
-            playlist.Add(new WplItem("Foo")
-            {
-                TrackId = "Bar"
-            });
+            playlist.Add(new WplItem("Foo") { TrackId = "Bar" });
+            var serializer = new WplSerializer();
+            var actual = serializer.Serialize(playlist);
 
-            Assert.Matches(pattern, serializer.Serialize(playlist));
+            actual.Should().MatchRegex(pattern);
         }
 
-        /*
-         * Replaces spaces, tabs and stuff, so that I can still write
-         * pretty xml in tests.
-         * Replaces any \s before '<' and after '>' whith \s*
-        */
-
+        /// <summary>
+        /// Replaces spaces, tabs and stuff, so that I can still write
+        /// pretty xml in tests.
+        /// Replaces any \s before '<' and after '>' with \s*
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         private static string PrepareXmlForPatternMatching(string str)
         {
             str = Regex.Replace(str, @"(\s*)(<)", @"\s*$2");

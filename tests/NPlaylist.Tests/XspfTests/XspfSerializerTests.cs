@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using NPlaylist.Xspf;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace NPlaylist.Tests.XspfTests
             };
             var result = xspfSerializer.Serialize(xspfPlaylist);
 
-            Assert.True(result != String.Empty);
+            result.Should().NotBeEmpty();
         }
 
         [Fact]
@@ -24,7 +25,9 @@ namespace NPlaylist.Tests.XspfTests
         {
             var xspfSerializer = new XspfSerializer();
 
-            Assert.Throws<ArgumentNullException>(() => xspfSerializer.Serialize(null));
+            Action act = () => xspfSerializer.Serialize(null);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -34,7 +37,7 @@ namespace NPlaylist.Tests.XspfTests
             var xspfSerializer = new XspfSerializer();
             var actualResult = xspfSerializer.Serialize(xspfPlaylist);
 
-            Assert.Contains("<trackList />", actualResult);
+            actualResult.Should().Contain("<trackList />");
         }
 
         [Fact]
@@ -46,9 +49,10 @@ namespace NPlaylist.Tests.XspfTests
                 Title = "test_element"
             });
             var xspfSerializer = new XspfSerializer();
+
             var actualResult = xspfSerializer.Serialize(xspfPlaylist);
 
-            Assert.Contains("<title>test_element</title>", actualResult);
+            actualResult.Should().Contain("<title>test_element</title>");
         }
     }
 }

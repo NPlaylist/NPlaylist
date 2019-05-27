@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using FluentAssertions;
 using NPlaylist.Pls;
 using Xunit;
 
@@ -10,34 +11,34 @@ namespace NPlaylist.Tests.PlsTests
         [Fact]
         public void Serialize_EmptyPlaylistCorrectSerialized_True()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("[playlist]");
-            sb.AppendLine();
-            sb.AppendLine($"NumberOfEntries={0}");
-            sb.AppendLine($"Version=2");
-
+            var sb = new StringBuilder()
+                .AppendLine("[playlist]")
+                .AppendLine()
+                .AppendLine("NumberOfEntries=0")
+                .AppendLine("Version=2");
             var serializer = new PlsSerializer();
+
             var result = serializer.Serialize(new PlsPlaylist());
 
-            Assert.Equal(sb.ToString(), result);
+            sb.ToString().Should().Be(result);
         }
 
         [Fact]
         public void Serialize_VersionSerializedCorrect_True()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("[playlist]");
-            sb.AppendLine();
-            sb.AppendLine($"NumberOfEntries={0}");
-            sb.AppendLine($"Version=2");
-
+            var sb = new StringBuilder()
+                .AppendLine("[playlist]")
+                .AppendLine()
+                .AppendLine("NumberOfEntries=0")
+                .AppendLine("Version=2");
             var serializer = new PlsSerializer();
+
             var result = serializer.Serialize(new PlsPlaylist()
             {
                 Version = "2"
             });
 
-            Assert.Equal(sb.ToString(), result);
+            sb.ToString().Should().Be(result);
         }
 
         [Fact]
@@ -50,11 +51,11 @@ namespace NPlaylist.Tests.PlsTests
         [Fact]
         public void Serialize_VersionNotNumberBecomesTwo_True()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("[playlist]");
-            sb.AppendLine();
-            sb.AppendLine($"NumberOfEntries={0}");
-            sb.AppendLine($"Version=2");
+            var sb = new StringBuilder()
+                .AppendLine("[playlist]")
+                .AppendLine()
+                .AppendLine("NumberOfEntries=0")
+                .AppendLine("Version=2");
 
             var serializer = new PlsSerializer();
             var result = serializer.Serialize(new PlsPlaylist()
@@ -62,20 +63,20 @@ namespace NPlaylist.Tests.PlsTests
                 Version = "ete"
             });
 
-            Assert.Equal(sb.ToString(), result);
+            sb.ToString().Should().Be(result);
         }
 
         [Fact]
         public void Serialize_ItemTitleSerializedCorrect_True()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("[playlist]");
-            sb.AppendLine();
-            sb.AppendLine($"File1=test path");
-            sb.AppendLine($"Title1=test title");
-            sb.AppendLine();
-            sb.AppendLine($"NumberOfEntries=1");
-            sb.AppendLine($"Version=2");
+            var sb = new StringBuilder()
+                .AppendLine("[playlist]")
+                .AppendLine()
+                .AppendLine("File1=test path")
+                .AppendLine("Title1=test title")
+                .AppendLine()
+                .AppendLine("NumberOfEntries=1")
+                .AppendLine("Version=2");
 
             var serializer = new PlsSerializer();
             var pls = new PlsPlaylist
@@ -89,20 +90,20 @@ namespace NPlaylist.Tests.PlsTests
 
             var result = serializer.Serialize(pls);
 
-            Assert.Equal(sb.ToString(), result);
+            sb.ToString().Should().Be(result);
         }
 
         [Fact]
         public void Serialize_LengthNotNumberBecomesZero_True()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("[playlist]");
-            sb.AppendLine();
-            sb.AppendLine($"File1=test path");
-            sb.AppendLine($"Length1=0");
-            sb.AppendLine();
-            sb.AppendLine($"NumberOfEntries=1");
-            sb.AppendLine($"Version=2");
+            var sb = new StringBuilder()
+                .AppendLine("[playlist]")
+                .AppendLine()
+                .AppendLine("File1=test path")
+                .AppendLine("Length1=0")
+                .AppendLine()
+                .AppendLine("NumberOfEntries=1")
+                .AppendLine("Version=2");
 
             var serializer = new PlsSerializer();
             var pls = new PlsPlaylist
@@ -116,13 +117,12 @@ namespace NPlaylist.Tests.PlsTests
 
             var result = serializer.Serialize(pls);
 
-            Assert.Equal(sb.ToString(), result);
+            sb.ToString().Should().Be(result);
         }
 
         [Fact]
         public void Serialize_CorrectNumberOfEntries_True()
         {
-            var serializer = new PlsSerializer();
             var pls = new PlsPlaylist
             {
                 Version = "2"
@@ -137,10 +137,11 @@ namespace NPlaylist.Tests.PlsTests
                 Title = "test title2",
                 Length = "10"
             });
+            var serializer = new PlsSerializer();
 
             var result = serializer.Serialize(pls);
 
-            Assert.Contains("NumberOfEntries=2", result);
+            result.Should().Contain("NumberOfEntries=2");
         }
     }
 }

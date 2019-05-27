@@ -4,8 +4,8 @@
     {
         public string Title
         {
-            get => Tags.TryGetValue(TagNames.Title, out var value) ? value : null;
-            set => Tags[TagNames.Title] = value;
+            get => Tags.TryGetValue(CommonTags.Title, out var value) ? value : null;
+            set => Tags[CommonTags.Title] = value;
         }
 
         public XspfPlaylistItem(string path) : base(path)

@@ -10,7 +10,7 @@ namespace NPlaylist.M3u
     public class M3uDeserializer : IPlaylistDeserializer<M3uPlaylist>
     {
         private const string decimalPattern = @"\d+(?:\.\d+)?";
-        private const string titlePattern = @"(?:,(.+))";
+        private const string titlePattern = "(?:,(.+))";
         private const string pathPattern = ".+";
         private const string newlinePattern = @"\r?\n";
 

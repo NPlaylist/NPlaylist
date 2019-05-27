@@ -1,13 +1,13 @@
 ﻿namespace NPlaylist
 {
-    public static class TagNames
+    public static class CommonTags
     {
-        public static string Path => "path";
-        public static string Title => "title";
-        public static string Author => "author";
-        public static string TrackId => "tid";
-        public static string Version => "version";
-        public static string Copyright => "copyright";
-        public static string Length => "length";
+        public const string Path = "path";
+        public const string Title = "title";
+        public const string Author = "author";
+        public const string TrackId = "tid";
+        public const string Version = "version";
+        public const string Copyright = "copyright";
+        public const string Length = "length";
     }
 }

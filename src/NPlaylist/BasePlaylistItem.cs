@@ -8,8 +8,8 @@ namespace NPlaylist
 
         public string Path
         {
-            get => Tags.TryGetValue(TagNames.Path, out var value) ? value : null;
-            set => Tags[TagNames.Path] = value;
+            get => Tags.TryGetValue(CommonTags.Path, out var value) ? value : null;
+            set => Tags[CommonTags.Path] = value;
         }
 
         protected BasePlaylistItem(string path)

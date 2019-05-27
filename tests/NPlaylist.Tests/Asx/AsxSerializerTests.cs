@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using FluentAssertions;
 using NPlaylist.Asx;
 using Xunit;
 
@@ -6,38 +7,36 @@ namespace NPlaylist.Tests.Asx
 {
     public class AsxSerializerTests
     {
-        private AsxSerializer serializer;
-
-        public AsxSerializerTests()
-        {
-            serializer = new AsxSerializer();
-        }
-
         [Fact]
         public void Serialize_NullInput_ThrowException()
         {
+            var serializer = new AsxSerializer();
+
             var output = serializer.Serialize(null);
-            Assert.True(output == string.Empty);
+
+            output.Should().BeEmpty();
         }
 
         [Fact]
         public void Serialize_VersionIsParsedAsExpected()
         {
             var playlist = new AsxPlaylist { Version = "1.0" };
-            var asxWithVersion = @"<asx version=""1.0"" />";
+            var serializer = new AsxSerializer();
 
             var output = serializer.Serialize(playlist);
-            Assert.True(output == asxWithVersion);
+
+            output.Should().Be(@"<asx version=""1.0"" />");
         }
 
         [Fact]
         public void Serialize_TitleOnlyIsParsedAsExpected_Foo()
         {
             var playlist = new AsxPlaylist { Title = "Foo" };
-            var asxWithTitle = @"<title>Foo</title>";
+            var serializer = new AsxSerializer();
 
             var output = serializer.Serialize(playlist);
-            Assert.Contains(asxWithTitle, output);
+
+            output.Should().Contain("<title>Foo</title>");
         }
 
         [Fact]
@@ -45,10 +44,11 @@ namespace NPlaylist.Tests.Asx
         {
             var playlist = new AsxPlaylist();
             playlist.Add(new AsxItem(string.Empty));
-            var cleanAsx = @"<asx />";
+            var serializer = new AsxSerializer();
 
-            var output = serializer.Serialize(playlist);
-            Assert.True(output == cleanAsx);
+            var actual = serializer.Serialize(playlist);
+
+            actual.Should().Be("<asx />");
         }
 
         [Fact]
@@ -58,11 +58,11 @@ namespace NPlaylist.Tests.Asx
             playlist.Add(new AsxItem(string.Empty));
             var asxItem = playlist.Items.First();
             asxItem.Tags["Foo"] = "Bar";
+            var serializer = new AsxSerializer();
 
-            var asxWithVersion = @"<asx />";
+            var actual = serializer.Serialize(playlist);
 
-            var output = serializer.Serialize(playlist);
-            Assert.True(output == asxWithVersion);
+            actual.Should().Be("<asx />");
         }
     }
 }

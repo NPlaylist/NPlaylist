@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using NPlaylist.M3u;
 using Xunit;
 
@@ -8,24 +9,24 @@ namespace NPlaylist.Tests.M3u
     {
         private const string newlinePattern = @"\r?\n";
 
-        private readonly M3uSerializer serializer;
-
-        public M3uSerializerTests()
-        {
-            serializer = new M3uSerializer();
-        }
-
         [Fact]
         public void Serialize_NullInput_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => serializer.Serialize(null));
+            var serializer = new M3uSerializer();
+
+            Action act = () => serializer.Serialize(null);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
         public void Serialize_EmptyPlaylist_ReturnsEmptyPlaylistStr()
         {
+            var serializer = new M3uSerializer();
+
             var output = serializer.Serialize(new M3uPlaylist());
-            Assert.Matches(@"^#EXTM3U8?", output);
+
+            output.Should().MatchRegex("^#EXTM3U8?");
         }
 
         [Fact]
@@ -33,44 +34,35 @@ namespace NPlaylist.Tests.M3u
         {
             var playlist = new M3uPlaylist();
             playlist.Add(new M3uItem("foo", 42.42m));
+            var serializer = new M3uSerializer();
 
             var output = serializer.Serialize(playlist);
 
-            var pattern =
-                  @"#EXTINF:42.42" + newlinePattern
-                + @"foo" + newlinePattern;
-
-            Assert.Matches(pattern, output);
+            output.Should().MatchRegex($"#EXTINF:42.42{newlinePattern}foo{newlinePattern}");
         }
 
         [Fact]
         public void Serialize_HasAMediaWithWhitespaceTitle_TitleIsIgnored()
         {
             var playlist = new M3uPlaylist();
-            playlist.Add(new M3uItem("foo", 0)
-            {
-                Title = " \t"
-            });
+            playlist.Add(new M3uItem("foo", 0) { Title = " \t" });
+            var serializer = new M3uSerializer();
 
             var output = serializer.Serialize(playlist);
 
-            var pattern = @"#EXTINF:0" + newlinePattern;
-            Assert.Matches(pattern, output);
+            output.Should().MatchRegex($"#EXTINF:0{newlinePattern}");
         }
 
         [Fact]
         public void Serialize_HasAMediaWithNormalTitle_TitleIsTrimmedAndAdded()
         {
             var playlist = new M3uPlaylist();
-            playlist.Add(new M3uItem("foo", 0)
-            {
-                Title = "\t Foo \t"
-            });
+            playlist.Add(new M3uItem("foo", 0) { Title = "\t Foo \t" });
+            var serializer = new M3uSerializer();
 
             var output = serializer.Serialize(playlist);
 
-            var pattern = @"#EXTINF:0, Foo" + newlinePattern;
-            Assert.Matches(pattern, output);
+            output.Should().MatchRegex($"#EXTINF:0, Foo{newlinePattern}");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
 using NPlaylist.Asx;
 using NSubstitute;
 using Xunit;
@@ -16,7 +17,8 @@ namespace NPlaylist.Tests.Asx
             playlist.GetGenericItems().Returns(new[] { item });
 
             var asx = new AsxPlaylist(playlist);
-            Assert.True(playlist.GetGenericItems().Count() == asx.GetGenericItems().Count());
+
+            asx.GetGenericItems().Should().HaveCount(playlist.GetGenericItems().Count());
         }
 
         [Fact]
@@ -25,12 +27,13 @@ namespace NPlaylist.Tests.Asx
             var playlist = Substitute.For<IPlaylist>();
             var dictionary = new Dictionary<string, string>
             {
-                { TagNames.Author, "Foo" }
+                { CommonTags.Author, "Foo" }
             };
             playlist.Tags.Returns(dictionary);
 
             var asx = new AsxPlaylist(playlist);
-            Assert.True(asx.Tags.ContainsKey(TagNames.Author));
+
+            asx.Tags.Should().ContainKey(CommonTags.Author);
         }
 
         [Fact]
@@ -39,12 +42,13 @@ namespace NPlaylist.Tests.Asx
             var playlist = Substitute.For<IPlaylist>();
             var dictionary = new Dictionary<string, string>
             {
-                { TagNames.Author, "Foo" }
+                { CommonTags.Author, "Foo" }
             };
             playlist.Tags.Returns(dictionary);
 
             var asx = new AsxPlaylist(playlist);
-            Assert.True(asx.Tags[TagNames.Author] == "Foo");
+
+            asx.Tags[CommonTags.Author].Should().Be("Foo");
         }
 
         [Fact]
@@ -56,7 +60,8 @@ namespace NPlaylist.Tests.Asx
             playlist.GetGenericItems().Returns(new[] { item });
 
             var asx = new AsxPlaylist(playlist);
-            Assert.True(asx.GetGenericItems().First().Path == "Foo");
+
+            asx.GetGenericItems().First().Path.Should().Be("Foo");
         }
 
         [Fact]
@@ -72,7 +77,7 @@ namespace NPlaylist.Tests.Asx
             playlist.GetGenericItems().Returns(new[] { item });
 
             var asx = new AsxPlaylist(playlist);
-            Assert.True(asx.GetGenericItems().First().Tags["Foo"] == "Bar");
+            asx.GetGenericItems().First().Tags["Foo"].Should().Be("Bar");
         }
     }
 }

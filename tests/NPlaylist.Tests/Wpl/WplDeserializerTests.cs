@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FluentAssertions;
 using NPlaylist.Wpl;
 using Xunit;
 
@@ -7,35 +8,40 @@ namespace NPlaylist.Tests.Wpl
 {
     public class WplDeserializerTests
     {
-        private readonly WplDeserializer deserializer;
-
-        public WplDeserializerTests()
+        [Fact]
+        public void Deserialize_NullInput_ThrowsArgumentNullException()
         {
-            deserializer = new WplDeserializer();
+            var deserializer = new WplDeserializer();
+
+            Action act = () => deserializer.Deserialize(null);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
-        public void Deserialize_NullInput_ThrowsException()
+        public void Deserialize_EmptyInput_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => deserializer.Deserialize(null));
+            var deserializer = new WplDeserializer();
+
+            Action act = () => deserializer.Deserialize(string.Empty);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
-        public void Deserialize_EmptyInput_ThrowsException()
+        public void Deserialize_IncorrectFormat_ThrowsFormatException()
         {
-            Assert.Throws<ArgumentNullException>(() => deserializer.Deserialize(string.Empty));
+            var deserializer = new WplDeserializer();
+
+            Action act = () => deserializer.Deserialize("Foo");
+
+            act.Should().Throw<FormatException>();
         }
 
         [Fact]
-        public void Deserialize_IncorrectFormat_ThrowsException()
+        public void Deserialize_GivenATag_HasExpectedTag()
         {
-            Assert.Throws<FormatException>(() => deserializer.Deserialize("Foo"));
-        }
-
-        [Fact]
-        public void Deserialize_GivenATag_TagIsParrsedAsExpected()
-        {
-            var wplWithMeta_FooToBar =
+            const string serializedPlaylist =
             @"
                 <smil>
                     <head>
@@ -46,16 +52,17 @@ namespace NPlaylist.Tests.Wpl
                     </body>
                 </smil>
             ";
+            var deserializer = new WplDeserializer();
 
-            var playlist = deserializer.Deserialize(wplWithMeta_FooToBar);
+            var playlist = deserializer.Deserialize(serializedPlaylist);
 
-            Assert.True(playlist.Tags["Foo"] == "Bar");
+            playlist.Tags["Foo"].Should().Be("Bar");
         }
 
         [Fact]
-        public void Deserialize_GivenTitle_TitleIsParrsedAsExpected()
+        public void Deserialize_GivenTitle_HasExpectedTitle()
         {
-            var wplWithTitle_Foo =
+            const string serializedPlaylist =
             @"
                 <smil>
                     <head>
@@ -66,16 +73,17 @@ namespace NPlaylist.Tests.Wpl
                     </body>
                 </smil>
             ";
+            var deserializer = new WplDeserializer();
 
-            var playlist = deserializer.Deserialize(wplWithTitle_Foo);
+            var playlist = deserializer.Deserialize(serializedPlaylist);
 
-            Assert.True(playlist.Title == "Foo");
+            playlist.Title.Should().Be("Foo");
         }
 
         [Fact]
-        public void Deserialize_GivenAuthor_AuthorIsParrsedAsExpected()
+        public void Deserialize_GivenAuthor_HasExpectedAuthor()
         {
-            var wplWithAuthor_Foo =
+            const string serializedPlaylist =
             @"
                 <smil>
                     <head>
@@ -86,16 +94,17 @@ namespace NPlaylist.Tests.Wpl
                     </body>
                 </smil>
             ";
+            var deserializer = new WplDeserializer();
 
-            var playlist = deserializer.Deserialize(wplWithAuthor_Foo);
+            var playlist = deserializer.Deserialize(serializedPlaylist);
 
-            Assert.True(playlist.Author == "Foo");
+            playlist.Author.Should().Be("Foo");
         }
 
         [Fact]
-        public void Deserialize_GivenAMedia_MediaIsParrsedAsExpected()
+        public void Deserialize_GivenAMedia_HasExpectedPath()
         {
-            var wplWithMedia_SrcToFoo_TidToBar =
+            const string serializedPlaylist =
             @"
                 <smil>
                     <head></head>
@@ -106,11 +115,36 @@ namespace NPlaylist.Tests.Wpl
                     </body>
                 </smil>
             ";
+            var deserializer = new WplDeserializer();
 
-            var playlist = deserializer.Deserialize(wplWithMedia_SrcToFoo_TidToBar);
+            var playlist = deserializer.Deserialize(serializedPlaylist);
 
-            var wplItem = playlist.Items.First();
-            Assert.True(wplItem.Path == "Foo" && wplItem.TrackId == "Bar");
+            var item = playlist.Items.First();
+
+            item.Path.Should().Be("Foo");
+        }
+
+        [Fact]
+        public void Deserialize_GivenAMedia_HasExpectedTrackID()
+        {
+            const string serializedPlaylist =
+            @"
+                <smil>
+                    <head></head>
+                    <body>
+                        <seq>
+                            <media src=""Foo"" tid=""Bar""/>
+                        </seq>
+                    </body>
+                </smil>
+            ";
+            var deserializer = new WplDeserializer();
+
+            var playlist = deserializer.Deserialize(serializedPlaylist);
+
+            var item = playlist.Items.First();
+
+            item.TrackId.Should().Be("Bar");
         }
     }
 }

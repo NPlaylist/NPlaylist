@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
 using NPlaylist.Xspf;
 using NSubstitute;
 using Xunit;
@@ -14,49 +15,49 @@ namespace NPlaylist.Tests.XspfTests
             var playlist = Substitute.For<IPlaylist>();
             var item = Substitute.For<IPlaylistItem>();
             playlist.GetGenericItems().Returns(new[] { item });
-
             var sut = new XspfPlaylist(playlist);
+
             var actualNbOfItems = sut.GetGenericItems().Count();
 
-            Assert.Equal(1, actualNbOfItems);
+            actualNbOfItems.Should().Be(1);
         }
 
         [Fact]
         public void Conversion_ConvertedPlaylistContainsTagAuthor_True()
         {
-            var tags = new Dictionary<string, string> { { TagNames.Author, "value" } };
+            var tags = new Dictionary<string, string> { { CommonTags.Author, "value" } };
             var playlist = Substitute.For<IPlaylist>();
             playlist.Tags.Returns(tags);
 
             var sut = new XspfPlaylist(playlist);
 
-            Assert.Contains(TagNames.Author, sut.Tags.Keys);
+            sut.Tags.Keys.Should().Contain(CommonTags.Author);
         }
 
         [Fact]
         public void Conversion_ConvertedAuthorEqualsToInitialPlaylitTitle_True()
         {
-            var tags = new Dictionary<string, string> { { TagNames.Author, "test author" } };
+            var tags = new Dictionary<string, string> { { CommonTags.Author, "test author" } };
             var playlist = Substitute.For<IPlaylist>();
             playlist.Tags.Returns(tags);
 
             var sut = new XspfPlaylist(playlist);
-            var actualAuthorTag = sut.Tags[TagNames.Author];
+            var actualAuthorTag = sut.Tags[CommonTags.Author];
 
-            Assert.Equal("test author", actualAuthorTag);
+            actualAuthorTag.Should().Be("test author");
         }
 
         [Fact]
         public void Conversion_ConvertedTitleEqualsToInitialPlaylitTitle_True()
         {
-            var tags = new Dictionary<string, string> { { TagNames.Title, "test title" } };
+            var tags = new Dictionary<string, string> { { CommonTags.Title, "test title" } };
             var playlist = Substitute.For<IPlaylist>();
             playlist.Tags.Returns(tags);
 
             var sut = new XspfPlaylist(playlist);
-            var actualTitleTag = sut.Tags[TagNames.Title];
+            var actualTitleTag = sut.Tags[CommonTags.Title];
 
-            Assert.Equal("test title", actualTitleTag);
+            actualTitleTag.Should().Be("test title");
         }
 
         [Fact]
@@ -64,14 +65,13 @@ namespace NPlaylist.Tests.XspfTests
         {
             var item = Substitute.For<IPlaylistItem>();
             item.Path.Returns("test path");
-
             var playlist = Substitute.For<IPlaylist>();
             playlist.GetGenericItems().Returns(new[] { item });
-
             var sut = new XspfPlaylist(playlist);
+
             var actualPath = sut.GetGenericItems().First().Path;
 
-            Assert.Equal("test path", actualPath);
+            actualPath.Should().Be("test path");
         }
 
         [Fact]
@@ -85,9 +85,10 @@ namespace NPlaylist.Tests.XspfTests
             playlist.GetGenericItems().Returns(new[] { item });
 
             var sut = new XspfPlaylist(playlist);
+
             var actualTag = sut.GetGenericItems().First().Tags["foo"];
 
-            Assert.Equal("testID", actualTag);
+            actualTag.Should().Be("testID");
         }
     }
 }

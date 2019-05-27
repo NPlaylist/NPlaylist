@@ -7,8 +7,8 @@ namespace NPlaylist.Pls
 {
     public class PlsDeserializer : IPlaylistDeserializer<PlsPlaylist>
     {
-        private const string locationPattern = @".+";
-        private const string titlePattern = @".+";
+        private const string locationPattern = ".+";
+        private const string titlePattern = ".+";
         private const string lengthPattern = @"-?\d+";
         private const string versionPattern = @"Version=(\d)";
 

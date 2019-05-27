@@ -32,8 +32,8 @@ namespace NPlaylist.Wpl.WplParts
             return playlist
                 .Tags
                 .Where(kv =>
-                       kv.Key != TagNames.Author
-                    && kv.Key != TagNames.Title)
+                       kv.Key != CommonTags.Author
+                    && kv.Key != CommonTags.Title)
                 .Select(kv => new Meta { Name = kv.Key, Content = kv.Value })
                 .ToList();
         }

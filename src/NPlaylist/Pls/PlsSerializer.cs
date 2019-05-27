@@ -23,7 +23,7 @@ namespace NPlaylist.Pls
 
         private void AddBody(PlsPlaylist playlist, StringBuilder sb)
         {
-            int itemNumber = 0;
+            var itemNumber = 0;
             foreach (var item in playlist.Items)
             {
                 itemNumber++;
@@ -36,7 +36,7 @@ namespace NPlaylist.Pls
 
                 if (item.Length != null)
                 {
-                    var result = int.TryParse(item.Length, out int res) ? res : 0;
+                    var result = int.TryParse(item.Length, out var res) ? res : 0;
                     sb.AppendLine($"Length{itemNumber}={result}");
                 }
 
@@ -47,7 +47,7 @@ namespace NPlaylist.Pls
         private void AddFooter(PlsPlaylist playlist, StringBuilder sb)
         {
             sb.AppendLine($"NumberOfEntries={playlist.Items.Count()}");
-            var result = int.TryParse(playlist.Version, out int res) ? res : 2;
+            var result = int.TryParse(playlist.Version, out var res) ? res : 2;
             sb.AppendLine($"Version={result}");
         }
 

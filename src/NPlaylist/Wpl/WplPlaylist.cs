@@ -12,14 +12,14 @@
 
         public string Title
         {
-            get => Tags.TryGetValue(TagNames.Title, out var value) ? value : null;
-            set => Tags[TagNames.Title] = value;
+            get => Tags.TryGetValue(CommonTags.Title, out var value) ? value : null;
+            set => Tags[CommonTags.Title] = value;
         }
 
         public string Author
         {
-            get => Tags.TryGetValue(TagNames.Author, out var value) ? value : null;
-            set => Tags[TagNames.Author] = value;
+            get => Tags.TryGetValue(CommonTags.Author, out var value) ? value : null;
+            set => Tags[CommonTags.Author] = value;
         }
 
         protected override WplItem CreateItem(IPlaylistItem item)

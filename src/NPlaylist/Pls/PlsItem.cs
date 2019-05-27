@@ -12,14 +12,14 @@
 
         public string Title
         {
-            get => Tags.TryGetValue(TagNames.Title, out var value) ? value : null;
-            set => Tags[TagNames.Title] = value;
+            get => Tags.TryGetValue(CommonTags.Title, out var value) ? value : null;
+            set => Tags[CommonTags.Title] = value;
         }
 
         public string Length
         {
-            get => Tags.TryGetValue(TagNames.Length, out var value) ? value : null;
-            set => Tags[TagNames.Length] = value;
+            get => Tags.TryGetValue(CommonTags.Length, out var value) ? value : null;
+            set => Tags[CommonTags.Length] = value;
         }
     }
 }

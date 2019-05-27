@@ -17,7 +17,7 @@ namespace NPlaylist.M3u
         {
             get
             {
-                if (!Tags.TryGetValue(TagNames.Length, out var valueStr))
+                if (!Tags.TryGetValue(CommonTags.Length, out var valueStr))
                 {
                     return 0;
                 }
@@ -25,18 +25,18 @@ namespace NPlaylist.M3u
                 return decimal.TryParse(valueStr, out var decimalValue) ? decimalValue : 0;
             }
 
-            set => Tags[TagNames.Length] = value.ToString(CultureInfo.InvariantCulture);
+            set => Tags[CommonTags.Length] = value.ToString(CultureInfo.InvariantCulture);
         }
 
         public string Title
         {
             get
             {
-                var title = Tags.TryGetValue(TagNames.Title, out var value) ? value : null;
+                var title = Tags.TryGetValue(CommonTags.Title, out var value) ? value : null;
                 return title?.Trim();
             }
 
-            set => Tags[TagNames.Title] = value;
+            set => Tags[CommonTags.Title] = value;
         }
     }
 }

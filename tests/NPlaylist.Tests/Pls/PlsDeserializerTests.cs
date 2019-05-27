@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FluentAssertions;
 using NPlaylist.Pls;
 using Xunit;
 
@@ -7,106 +8,121 @@ namespace NPlaylist.Tests.Pls
 {
     public class PlsDeserializerTests
     {
-        private readonly PlsDeserializer deserializer;
-
-        public PlsDeserializerTests()
-        {
-            deserializer = new PlsDeserializer();
-        }
-
         [Fact]
         public void Deserialize_NullInput_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => deserializer.Deserialize(null));
+            var deserializer = new PlsDeserializer();
+
+            Action act = () => deserializer.Deserialize(null);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
         public void Deserialize_EmptyInput_ThrowsArgumentException()
         {
-            Assert.Throws<ArgumentNullException>(() => deserializer.Deserialize(string.Empty));
+            var deserializer = new PlsDeserializer();
+
+            Action act = () => deserializer.Deserialize(string.Empty);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
         public void Deserialize_IncorrectFormat_ThrowsFormatException()
         {
-            Assert.Throws<FormatException>(() => deserializer.Deserialize("Foo"));
+            var deserializer = new PlsDeserializer();
+
+            Action act = () => deserializer.Deserialize("Foo");
+
+            act.Should().Throw<FormatException>();
         }
 
         [Fact]
         public void Deserialize_OnlyHeaderIsParsedAsExpected()
         {
-            string str = @"[playlist]";
-            var playlist = deserializer.Deserialize(str);
+            var deserializer = new PlsDeserializer();
 
-            Assert.Empty(playlist.Items);
+            var playlist = deserializer.Deserialize("[playlist]");
+
+            playlist.Items.Should().BeEmpty();
         }
 
         [Fact]
         public void Deserialize_OnlyHeaderIsParsedExpectingEmptyVersion()
         {
-            string str = @"[playlist]";
-            var playlist = deserializer.Deserialize(str);
+            var deserializer = new PlsDeserializer();
 
-            Assert.True(playlist.Version == string.Empty);
+            var playlist = deserializer.Deserialize("[playlist]");
+
+            playlist.Version.Should().BeEmpty();
         }
 
         [Fact]
         public void Deserialize_VersionIsParsedAsNonDigitNumber()
         {
-            string str = @"[playlist]
-Version=Foo";
-            var playlist = deserializer.Deserialize(str);
+            var deserializer = new PlsDeserializer();
 
-            Assert.True(playlist.Version == string.Empty);
+            var playlist = deserializer.Deserialize("[playlist]\nVersion=Foo");
+
+            playlist.Version.Should().BeEmpty();
         }
 
         [Fact]
         public void Deserialize_EntryIsParsedWithInvalidFormat()
         {
-            string str = @"File1=Foo";
+            var deserializer = new PlsDeserializer();
 
-            Assert.Throws<FormatException>(() => deserializer.Deserialize(str));
+            Action action = () => deserializer.Deserialize("File1=Foo");
+
+            action.Should().Throw<FormatException>();
         }
 
         [Fact]
         public void Deserialize_EntryIsParsedAsExpected_Foo()
         {
-            string str = @"[playlist]
+            var deserializer = new PlsDeserializer();
 
-File1=Foo";
-            var playlist = deserializer.Deserialize(str);
+            var playlist = deserializer.Deserialize("[playlist]\n\nFile1=Foo");
 
-            Assert.True(playlist.GetGenericItems().Count() == 1);
+            playlist.GetGenericItems().Should().HaveCount(1);
         }
 
         [Fact]
         public void Deserialize_EntryHasTrashTag_FooToBar()
         {
-            string str = @"[playlist]
-Foo=Bar";
+            var deserializer = new PlsDeserializer();
 
-            Assert.Throws<FormatException>(() => deserializer.Deserialize(str));
+            Action action = () => deserializer.Deserialize("[playlist]\nFoo=Bar");
+
+            action.Should().Throw<FormatException>();
         }
 
         [Fact]
         public void Deserialize_EntryWithStreamDuration_CorrectExtracted()
         {
-            string str = @"[playlist]
-File1=Foo
-Length1=-1";
-            var playlist = deserializer.Deserialize(str);
+            var deserializer = new PlsDeserializer();
 
-            Assert.Equal("-1", playlist.Items.First().Length);
+            var playlist = deserializer.Deserialize("[playlist]\nFile1=Foo\nLength1=-1");
+
+            playlist.Items.First().Length.Should().Be("-1");
         }
 
         [Fact]
         public void Deserialize_EntryWithUselessNewlines_ExtralinesAreIgnored()
         {
-            string str = "[playlist]" + Environment.NewLine + Environment.NewLine + Environment.NewLine +
-                         "File1=Foo" + Environment.NewLine + Environment.NewLine;
+            var str = string.Format(
+                "[playlist]{0}{1}{2}File1=Foo{3}{4}",
+                Environment.NewLine,
+                Environment.NewLine,
+                Environment.NewLine,
+                Environment.NewLine,
+                Environment.NewLine);
+
+            var deserializer = new PlsDeserializer();
             var playlist = deserializer.Deserialize(str);
 
-            Assert.Equal("Foo", playlist.Items.First().Path);
+            playlist.Items.First().Path.Should().Be("Foo");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FluentAssertions;
 using NPlaylist.Asx;
 using Xunit;
 
@@ -7,85 +8,109 @@ namespace NPlaylist.Tests.Asx
 {
     public class AsxDeserializerTests
     {
-        private readonly AsxDeserializer deserializer;
-
-        public AsxDeserializerTests()
-        {
-            deserializer = new AsxDeserializer();
-        }
-
         [Fact]
         public void Deserialize_NullInput_ThrowsArgumentException()
         {
-            Assert.Throws<ArgumentNullException>(() => deserializer.Deserialize(null));
+            var deserializer = new AsxDeserializer();
+
+            Action act = () => deserializer.Deserialize(null);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
         public void Deserialize_EmptyInput_ThrowsArgumentException()
         {
-            Assert.Throws<ArgumentNullException>(() => deserializer.Deserialize(string.Empty));
+            var deserializer = new AsxDeserializer();
+
+            Action act = () => deserializer.Deserialize(string.Empty);
+
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
         public void Deserialize_IncorrectFormat_ThrowsFormatException()
         {
-            Assert.Throws<FormatException>(() => deserializer.Deserialize("Foo"));
+            var deserializer = new AsxDeserializer();
+
+            Action act = () => deserializer.Deserialize("Foo");
+
+            act.Should().Throw<FormatException>();
         }
 
         [Fact]
         public void Deserialize_TagIsParsedAsExpected()
         {
-            string asxWithMeta_FooToBar =
-            @"
-                <asx />
-            ";
-            var playlist = deserializer.Deserialize(asxWithMeta_FooToBar);
+            var deserializer = new AsxDeserializer();
 
-            Assert.True(!playlist.Items.Any());
+            var playlist = deserializer.Deserialize(@"
+                <asx />
+            ");
+
+            playlist.Items.Should().BeEmpty();
         }
 
         [Fact]
         public void Deserialize_TitleIsParsedAsExpected()
         {
-            string asxWithTitle_Foo =
-            @"
+            var deserializer = new AsxDeserializer();
+
+            var playlist = deserializer.Deserialize(@"
                 <asx>
                   <title>Foo</title>
                 </asx>
-            ";
-            var playlist = deserializer.Deserialize(asxWithTitle_Foo);
+            ");
 
-            Assert.True(playlist.Title == "Foo");
+            playlist.Title.Should().Be("Foo");
         }
 
         [Fact]
         public void Deserialize_VersionIsParsedAsExpected()
         {
-            string asxWithVersion_Foo =
-            @"
+            var deserializer = new AsxDeserializer();
+
+            var playlist = deserializer.Deserialize(@"
                 <asx version=""Foo"">
                 </asx>
-            ";
-            var playlist = deserializer.Deserialize(asxWithVersion_Foo);
+            ");
 
-            Assert.True(playlist.Version == "Foo");
+            playlist.Version.Should().Be("Foo");
         }
 
         [Fact]
-        public void Deserialize_RefIsParsedAsExpected()
+        public void Deserialize_RefIsParsedAsExpected_HasOneItem()
         {
-            string asxWithRef_Foo =
-            @"
+            var deserializer = new AsxDeserializer();
+
+
+            var playlist = deserializer.Deserialize(@"
                 <asx>
                   <entry>
                     <ref href=""Foo"" />
                   </entry>
                 </asx>
-            ";
-            var playlist = deserializer.Deserialize(asxWithRef_Foo);
+            ");
+
+            playlist.Items.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void Deserialize_RefIsParsedAsExpected()
+        {
+            var deserializer = new AsxDeserializer();
+
+
+            var playlist = deserializer.Deserialize(@"
+                <asx>
+                  <entry>
+                    <ref href=""Foo"" />
+                  </entry>
+                </asx>
+            ");
 
             var asxItem = playlist.Items.First();
-            Assert.True(playlist.Items.Count() == 1 && asxItem.Path == "Foo");
+
+            asxItem.Path.Should().Be("Foo");
         }
     }
 }

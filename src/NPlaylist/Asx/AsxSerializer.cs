@@ -62,8 +62,8 @@ namespace NPlaylist.Asx
         private List<ParamItem> GetEntryTags(AsxItem item)
         {
             return item.Tags
-                .Where(t => t.Key != TagNames.Path && t.Key != TagNames.Author &&
-                            t.Key != TagNames.Copyright && t.Key != TagNames.Title)
+                .Where(t => t.Key != CommonTags.Path && t.Key != CommonTags.Author &&
+                            t.Key != CommonTags.Copyright && t.Key != CommonTags.Title)
                 .Select(itemTags => new ParamItem { Name = itemTags.Key, Value = itemTags.Value }).ToList();
         }
 

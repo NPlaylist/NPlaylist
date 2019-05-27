@@ -12,8 +12,8 @@
 
         public string TrackId
         {
-            get => Tags.TryGetValue(TagNames.TrackId, out var value) ? value : null;
-            set => Tags[TagNames.TrackId] = value;
+            get => Tags.TryGetValue(CommonTags.TrackId, out var value) ? value : null;
+            set => Tags[CommonTags.TrackId] = value;
         }
     }
 }
