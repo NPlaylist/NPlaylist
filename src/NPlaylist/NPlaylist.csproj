@@ -52,6 +52,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Wpl\WplParts\" />
+    <ProjectReference Include="..\..\NPlaylist.ASX\NPlaylist.ASX.csproj" />
+    <ProjectReference Include="..\NPlaylist.M3U\NPlaylist.M3U.csproj" />
+    <ProjectReference Include="..\NPlaylist.PLS\NPlaylist.PLS.csproj" />
+    <ProjectReference Include="..\NPlaylist.WPL\NPlaylist.WPL.csproj" />
+    <ProjectReference Include="..\NPlaylist.XSPF\NPlaylist.XSPF.csproj" />
   </ItemGroup>
 </Project>
